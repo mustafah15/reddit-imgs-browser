@@ -35,8 +35,6 @@ class PicsParserManger
         return $data;
     }
 
-
-
     public function setUrl($before, $after)
     {
         $this->source =  $this->source.'?before='.$before.'?after='.$after;
@@ -44,15 +42,18 @@ class PicsParserManger
         return $this->source;
     }
 
+    public function getUrl()
+    {
+        return $this->source;
+    }
 
     public function getJson()
     {
-
         $json = json_decode(file_get_contents($this->source), true)['data'];
 
         $this->setUrl($json['before'],$json['after']);
-        return $json['children'];
 
+        return $json['children'];
     }
 
 

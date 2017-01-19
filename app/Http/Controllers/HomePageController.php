@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: root
@@ -18,6 +19,7 @@ class HomePageController extends BaseController
 
         $data['pics'] = $parser->generateContent($parser->getJson());
 
+        dd($parser->getUrl());
         return view('welcome',$data);
     }
 }

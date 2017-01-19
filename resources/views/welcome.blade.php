@@ -22,12 +22,14 @@
     <div class="row">
         <h1>reddit images retriver</h1>
         @foreach($pics as $pic)
-            <div  data-content="<img height='500' width='500' src='{{$pic->url}}'>"  class="col-lg-3 col-sm-4 col-xs-6"><a title="{{$pic->title}}" href="#"><img class="thumbnail img-responsive" height='150' width='150'
-            @if($pic->domain != 'self.pics')
-            src=" {{$pic->thumbnail}}"></a></div>
-            @else
-               src="https://placehold.it/150x150"></a></div>
-            @endif
+
+            <div  data-content="<img height='500' width='500' src='{{$pic->url}}'>"  class="col-lg-3 col-sm-4 col-xs-6"><a title="{{$pic->title}}" href="#">
+                    <img class="thumbnail img-responsive" height='150' width='150'
+                        @if($pic->domain != 'self.pics')
+                        src=" {{$pic->thumbnail}}"></a></div>
+                        @else
+                           src="https://placehold.it/150x150"></a></div>
+                        @endif
 
         @endforeach
 
