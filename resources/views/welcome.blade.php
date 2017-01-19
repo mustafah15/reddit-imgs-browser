@@ -1,7 +1,8 @@
 <html>
 <head>
     <title>test</title>
-    <style>.modal-dialog {width:600px;}
+    <style>
+        .modal-dialog {width:600px;}
         .thumbnail {margin-bottom:6px;}
     </style>
     <!-- Latest compiled and minified CSS -->
@@ -19,20 +20,16 @@
 <body>
 <div class="container">
     <div class="row">
-        <h1>Bootstrap 3 Lightbox image gallery using Modal</h1>
+        <h1>reddit images retriver</h1>
+        @foreach($pics as $pic)
+            <div  data-content="<img height='500' width='500' src='{{$pic->url}}'>"  class="col-lg-3 col-sm-4 col-xs-6"><a title="{{$pic->title}}" href="#"><img class="thumbnail img-responsive" height='150' width='150'
+            @if($pic->domain != 'self.pics')
+            src=" {{$pic->thumbnail}}"></a></div>
+            @else
+               src="https://placehold.it/150x150"></a></div>
+            @endif
 
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 1" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 2" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/2255EE"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 3" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/449955/FFF"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 4" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/992233"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 5" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/2255EE"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 6" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/449955/FFF"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 8" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/777"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 9" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/992233"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 10" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/EEE"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 11" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/449955/FFF"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 12" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/DDD"></a></div>
-        <div class="col-lg-3 col-sm-4 col-xs-6"><a title="Image 13" href="#"><img class="thumbnail img-responsive" src="https://placehold.it/600x350/992233"></a></div>
+        @endforeach
 
         <hr>
 
@@ -62,7 +59,7 @@
             $('.modal-body').empty();
             var title = $(this).parent('a').attr("title");
             $('.modal-title').html(title);
-            $($(this).parents('div').html()).appendTo('.modal-body');
+            $($(this).parents('div').attr("data-content")).appendTo('.modal-body');
             $('#myModal').modal({show:true});
         });
     });

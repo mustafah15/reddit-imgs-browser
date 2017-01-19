@@ -7,9 +7,17 @@
  */
 
 namespace App\Http\Controllers;
+use Illuminate\Routing\Controller as BaseController;
+use App\Managers\PicsParserManger;
 
-
-class HomePageController
+class HomePageController extends BaseController
 {
+    public function getIndex()
+    {
+        $parser = new PicsParserManger();
 
+        $data['pics'] = $parser->generateContent($parser->getJson());
+
+        return view('welcome',$data);
+    }
 }
