@@ -13,3 +13,6 @@
 
 
 Route::get('/','HomePageController@getIndex')->name('homepage');
+
+Route::get('next/{url}/{count}','HomePageController@getPaginateNext')->name('next-pagination');
+Route::get('prev/{url}/{count}','HomePageController@getPaginatePrev')->name('prev-pagination');

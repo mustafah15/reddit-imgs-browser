@@ -13,7 +13,13 @@ namespace App\Managers;
 
 class PicsParserManger
 {
-    private $source = 'https://www.reddit.com/r/pics/.json?limit=10';
+    private $source = 'https://www.reddit.com/r/pics/.json';
+
+    private $before ;
+
+    private $count ;
+
+    private $after ;
 
     public function generateContent($nodes)
     {
@@ -35,11 +41,53 @@ class PicsParserManger
         return $data;
     }
 
-    public function setUrl($before, $after)
+    public function getJson($url)
     {
-        $this->source =  $this->source.'?before='.$before.'?after='.$after;
+        $json = json_decode(file_get_contents($url), true)['data'];
+
+        $this->setNext($json['after']);
+        $this->setPrevious($json['before']);
+
+        return $json['children'];
+    }
+
+    public function getNextJson($after,$count)
+    {
+        $this->setNext($after);
+        $this->setCount($count);
+        $this->increaseCount();
+        $nodes = $this->getJson($this->setUrl());
+        $this->setPrevious($after);
+
+        return $this->generateContent($nodes);
+    }
+
+    public function getPrevJson($before,$count)
+    {
+        $this->setPrevious($before);
+        $this->setCount($count);
+        $this->decreaseCount();
+        $nodes = $this->getJson($this->setUrl());
+        $this->setNext($before);
+
+        return $this->generateContent($nodes);
+    }
+
+    public function setUrl()
+    {
+        $this->source =  $this->source.'?count='.$this->count.'&before='.$this->before.'&after='.$this->after;
 
         return $this->source;
+    }
+
+    public function getNext()
+    {
+        return $this->after;
+    }
+
+    public function getPrevious()
+    {
+        return $this->before;
     }
 
     public function getUrl()
@@ -47,15 +95,38 @@ class PicsParserManger
         return $this->source;
     }
 
-    public function getJson()
+    public function setPrevious($before)
     {
-        $json = json_decode(file_get_contents($this->source), true)['data'];
+        $this->before = $before;
+    }
 
-        $this->setUrl($json['before'],$json['after']);
-
-        return $json['children'];
+    public function setNext($after)
+    {
+        $this->after = $after;
     }
 
 
+    public function setCount($count)
+    {
+        $this->count = $count;
+    }
+
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    public function increaseCount()
+    {
+        $this->count = $this->count + 25;
+    }
+
+    public function decreaseCount()
+    {
+        if($this->count<25)
+            $this->count = 0;
+        else
+            $this->count = $this->count - 25;
+    }
 
 }

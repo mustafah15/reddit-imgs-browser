@@ -17,9 +17,35 @@ class HomePageController extends BaseController
     {
         $parser = new PicsParserManger();
 
-        $data['pics'] = $parser->generateContent($parser->getJson());
-
-        dd($parser->getUrl());
+        $data['pics'] = $parser->generateContent($parser->getJson($parser->getUrl()));
+        $data['next'] = $parser->getNext();
+        $data['previous'] = $parser->getPrevious();
+        $data['count'] = 0;
         return view('welcome',$data);
     }
+
+    public function getPaginateNext($next,$count)
+    {
+        $parser = new PicsParserManger();
+
+        $data['pics'] = $parser->getNextJson($next,$count);
+        $data['next'] = $parser->getNext();
+        $data['previous'] = $parser->getPrevious();
+        $data['count'] = $parser->getCount();
+
+        return view('welcome',$data);
+    }
+
+    public function getPaginatePrev($before,$count)
+    {
+        $parser = new PicsParserManger();
+
+        $data['pics'] = $parser->getPrevJson($before,$count);
+        $data['next'] = $parser->getNext();
+        $data['previous'] = $parser->getPrevious();
+        $data['count'] = $parser->getCount();
+
+        return view('welcome',$data);
+    }
+
 }
